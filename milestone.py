@@ -90,12 +90,12 @@ class DistanceConvertor(tk.Tk):
         self.frames[FeetToMetres] = feet_to_metres
         self.frames[MetresToFeet] = metres_to_feet
 
-        # self.bind("<Return>", self.frame.calculate)
         self.show_frame(MetresToFeet)
 
     def show_frame(self, container):
         frame = self.frames[container]
         frame.tkraise()
+        self.bind("<Return>", frame.calculate)
 
 
 root = DistanceConvertor()
