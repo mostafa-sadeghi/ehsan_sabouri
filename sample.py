@@ -9,9 +9,12 @@ def greet(*args):
 root = tk.Tk()
 style = ttk.Style(root)
 
+
 # print(style.theme_names())
 # print(style.theme_use())
 style.theme_use('clam')
+style.configure("TButton")
+style.map("TButton", foreground=[("pressed", "red")])
 style.configure("CustomEntryStyle.TEntry", padding=20)
 style.configure("Emergency.CustomEntryStyle.TEntry", padding=10)
 style.configure("TLabel", font=("Arial", 20))
@@ -40,6 +43,7 @@ name_entry.grid(row=0, column=1, padx=10)
 
 # print(name_entry.winfo_class())
 name_entry.focus()
-greet_button = ttk.Button(main, text='Greet', command=greet)
+greet_button = ttk.Button(
+    main, text='Greet', command=greet)
 greet_button.grid(row=0, column=2, sticky='ew', padx=10)
 root.mainloop()
