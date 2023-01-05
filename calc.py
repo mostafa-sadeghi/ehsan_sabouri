@@ -2,27 +2,24 @@ import tkinter as tk
 
 from tkinter import ttk, END
 
+numbers = []
+operators = []
+
 
 def button_equal():
-    second_number = e.get()
+    statement = e.get()
     e.delete(0, END)
-    if math == "+":
-        e.insert(0, f_num + float(second_number))
-    elif math == "-":
-        e.insert(0, f_num - float(second_number))
-    elif math == "*":
-        e.insert(0, f_num * float(second_number))
-    elif math == "/":
-        e.insert(0, f_num / float(second_number))
+    for index, s in enumerate(statement):
+        if s == "+":
+            operators.append(s)
+            numbers.append(statement[:index])
+            numbers.append(statement[index+1:])
+
+    print(numbers)
 
 
 def button_add():
-    first_number = e.get()
-    global f_num
-    global math
-    math = "+"
-    f_num = float(first_number)
-    e.delete(0, END)
+    e.insert(END, "+")
 
 
 def button_clear():
@@ -30,36 +27,19 @@ def button_clear():
 
 
 def button_click(number):
-    current = e.get()
-    e.delete(0, END)
-    e.insert(0, current + str(number))
+    e.insert(END, number)
 
 
 def button_subtract():
-    first_number = e.get()
-    global f_num
-    global math
-    math = "-"
-    f_num = float(first_number)
-    e.delete(0, END)
+    e.insert(END, "-")
 
 
 def button_multiply():
-    first_number = e.get()
-    global f_num
-    global math
-    math = "*"
-    f_num = float(first_number)
-    e.delete(0, END)
+    e.insert(END, "×")
 
 
 def button_division():
-    first_number = e.get()
-    global f_num
-    global math
-    math = "/"
-    f_num = float(first_number)
-    e.delete(0, END)
+    e.insert(END, "÷")
 
 
 root = tk.Tk()
@@ -77,7 +57,7 @@ print(style.element_options("Frame.border"))
 
 root.title('calculator')
 
-e = ttk.Entry(root, width=10)
+e = ttk.Entry(root, width=15)
 e.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 
 frame = ttk.Frame(root, padding=(25, 5))
