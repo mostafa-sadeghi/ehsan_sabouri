@@ -60,8 +60,29 @@
 # d. if a < b and c:
 
 
-if 3 < 4:
-    print("A")
-else:
-    print("B")
-print("C")
+# if 3 < 4:
+#     print("A")
+# else:
+#     print("B")
+# print("C")
+
+# a. A
+
+# b. A
+# B
+
+# c. B
+
+# d. B
+# C
+
+# e. A
+# C
+
+# f. A
+# B
+# C
+
+# g. Nothing, the code won’t run.
+
+

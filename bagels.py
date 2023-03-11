@@ -15,6 +15,25 @@ def generateSecretNumber():
     return sec_number
 
 
+def giveHelp(secretNumber, userGuess):
+    if userGuess == secretNumber:
+        return "That's right..."
+
+    help_list = []
+
+    for i in range(len(userGuess)):
+        if userGuess[i] == secretNumber[i]:
+            help_list.append('Fermi')
+
+        elif userGuess[i] in secretNumber:
+            help_list.append("Pico")
+
+    if len(help_list) == 0:
+        return 'Bagels'
+
+    return help_list
+
+
 print(f'''Welcome to our game.
 You have {MAXGUESSES} times to guess a nonrepeated {NUMDIGITS} digits number.
 Hint        Meaning
@@ -26,15 +45,26 @@ Bagels      All digits are wrong.
 secret_number = generateSecretNumber()
 print(f'you have {MAXGUESSES} times')
 
-counter = 0
 
-while counter < MAXGUESSES:
-    print(f'guess number {counter + 1}')
-    guess = ''
-    while len(guess) != 3 or not guess.isdecimal():
-        guess = input(
-            f'enter your guess, guess must be {NUMDIGITS} digits number:> ')
+while True:
+    counter = 0
+    while counter < MAXGUESSES:
+        print(f'guess number {counter + 1}')
+        guess = ''
+        while len(guess) != 3 or not guess.isdecimal():
+            guess = input(
+                f'enter your guess, guess must be {NUMDIGITS} digits number:> ')
 
-    counter += 1
+        counter += 1
 
-    # Todo call get Hint Function
+        hint = giveHelp(secret_number, guess)
+        print(hint)
+        if guess == secret_number:
+            break
+
+        if counter >= 10:
+            print("you lost....")
+            
+    print("Do you want to continue? (yes) or no? ")
+    if not input('> ').lower().startswith('y'):
+        break
