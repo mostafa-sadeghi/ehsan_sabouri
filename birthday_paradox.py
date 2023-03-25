@@ -29,14 +29,19 @@ def check_equality(birthdays):
     #         if birthdays[i] == birthdays[j]:
     #             return birthdays[i]
 
-    for i in range(len(birthdays)):
-        if birthdays[i] in birthdays[i+1:]:
-            return birthdays[i]
+#     for i in range(len(birthdays)):
+#         if birthdays[i] in birthdays[i+1:]:
+#             return birthdays[i]
 
 
-print("enter how many birthday you want? ")
-#number_of_birthdays = int(input('> '))
-#all_birthdays = getBirthdays(number_of_birthdays)
-all_birthdays = getBirthdays(23)
-print("all_birthdays", all_birthdays)
-print(check_equality(all_birthdays))
+# print("enter how many birthday you want? ")
+# number_of_birthdays = int(input('> '))
+
+# # all_birthdays = getBirthdays(23)
+# # our experiment:
+# counter = 0
+# for i in range(100_000):
+#     all_birthdays = getBirthdays(number_of_birthdays)
+#     if check_equality(all_birthdays) != None:
+#         counter += 1
+# print(counter/100_000 *100)
