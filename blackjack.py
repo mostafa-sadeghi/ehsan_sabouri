@@ -63,11 +63,47 @@ def main():
                 bet += additionalBet
                 print("bet increased")
                 print("Bet:", bet)
-            # todo add S and D moves
+
+            if move == 'H':
+                newCard = deck.pop()
+                rank, suit = newCard
+                print(f"new card {rank} {suit}")
+                playerHand.append(newCard)
+                if getHandValue(playerHand) > 21:
+                    continue
+            if move == "S":
+                break
+
+        if getHandValue(playerHand) <= 21:
+            while getHandValue(dealerHand) < 17:
+                print("dealer hit")
+                dealerHand.append(deck.pop())
+                displayHands(playerHand, dealerHand, False)
+                if getHandValue(dealerHand) > 21:
+                    break
+                input('press enter to continue...')
+
+        displayHands(playerHand, dealerHand, True)
+        playerValue = getHandValue(playerHand)
+        dealerValue = getHandValue(dealerHand)
+        if dealerValue > 21:
+            print("dealer loses!!! You win", bet)
+            money += bet
+        elif (playerValue > 21) or (playerValue < dealerValue):
+            print("you lost")
+            money -= bet
+
+        elif playerValue > dealerValue:
+            print("you won", bet)
+            money += bet
+        elif playerValue == dealerValue:
+            print("equal")
+
+        input('press enter to continue............')
 
 
 def getBet(maxBet):
-    bet = input(f'How much do you bet? (1 - {maxBet}), or QUIT')
+    bet = input(f'How much do you bet? (1 - {maxBet}), or QUIT : ')
     if bet.lower().startswith('q'):
         print("thank you for playing!")
         sys.exit()
@@ -94,8 +130,8 @@ def displayHands(playerHand, dealerHand, showDealerHand):
     else:
         print('DEALER')
         displayCards([BACKSIDE] + dealerHand[1:])
-
-    print("PLAYER", getHandValue(dealerHand))
+    print()
+    print("PLAYER", getHandValue(playerHand))
     displayCards(playerHand)
 
 
@@ -124,12 +160,12 @@ def displayCards(cards):
         if card == BACKSIDE:
             row[1] += '|## | '
             row[2] += '|###| '
-            row[1] += '|_##| '
+            row[3] += '|_##| '
         else:
             rank, suit = card
-            row[1] += f'|{rank.ljust(2)} |'
-            row[2] += f'| {suit} |'
-            row[3] += f'|_{rank.ljust(2)}_|'
+            row[1] += f'|{rank.ljust(2)} | '
+            row[2] += f'| {suit} | '
+            row[3] += f"|_{rank.rjust(2,'_')}| "
 
     for r in row:
         print(r)
@@ -147,3 +183,6 @@ def getMove(playerHand, money):
             return move
         if move == 'D' and '(D)ouble' in moves:
             return move
+
+
+main()
