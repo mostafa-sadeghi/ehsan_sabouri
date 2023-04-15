@@ -5,10 +5,11 @@ import sys
 
 
 WIDTH, HEIGHT = bext.size()
+WIDTH -= 1
 # print(WIDTH, HEIGHT)
 NUMBER_OF_LOGOS = 5
-PAUSE_AMOUNT = 0.2
-COLORS = ['red', 'green', 'yellow', 'blue', 'megenta', 'cyan', 'white']
+PAUSE_AMOUNT = 1.0
+COLORS = ['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white']
 UP_RIGHT = 'ur'
 UP_LEFT = 'ul'
 DOWN_RIGHT = 'dr'
@@ -29,12 +30,14 @@ for i in range(NUMBER_OF_LOGOS):
         Y: random.randint(1, HEIGHT - 3),
         DIR: random.choice(DIRECTIONS)
     })
+    if logos[-1][X] % 2 == 1:
+        logos[-1][X] -= 1
 
 cornerBounces = 0
 while True:
     for logo in logos:
         bext.goto(logo[X], logo[Y])
-
+        print('   ', end='')
         originalDirection = logo[DIR]
 
         if logo[X] == 0 and logo[Y] == 0:
@@ -47,7 +50,7 @@ while True:
             logo[DIR] = DOWN_LEFT
             cornerBounces += 1
         elif logo[X] == WIDTH - 3 and logo[Y] == HEIGHT - 1:
-            logo[DIR] = UP_RIGHT
+            logo[DIR] = UP_LEFT
             cornerBounces += 1
 
         elif logo[X] == 0 and logo[DIR] == UP_LEFT:
@@ -70,4 +73,28 @@ while True:
         elif logo[Y] == HEIGHT - 1 and logo[DIR] == DOWN_LEFT:
             logo[DIR] = UP_LEFT
 
-        if logo[DIR]
+        if logo[DIR] != originalDirection:
+            logo[COLOR] = random.choice(COLORS)
+
+        if logo[DIR] == UP_RIGHT:
+            logo[X] += 2
+            logo[Y] -= 1
+        elif logo[DIR] == UP_LEFT:
+            logo[X] -= 2
+            logo[Y] -= 1
+        elif logo[DIR] == DOWN_RIGHT:
+            logo[X] += 2
+            logo[Y] += 1
+        elif logo[DIR] == DOWN_LEFT:
+            logo[X] -= 2
+            logo[Y] += 1
+
+    bext.goto(5, 0)
+    bext.fg('white')
+    bext.goto(logo[X], logo[Y])
+    bext.fg(logo[COLOR])
+    print('DVD', end='')
+
+    # bext.goto(0, 0)
+    sys.stdout.flush()
+    time.sleep(PAUSE_AMOUNT)
