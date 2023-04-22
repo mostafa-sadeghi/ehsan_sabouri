@@ -1,6 +1,7 @@
+import pyperclip
+import random
 SYMBOLS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-
-
+encryption_key = ''
 while True:
     print('Do you want to (e)ncrypt or (d)ecrypt?')
     response = input('> ').lower()
@@ -11,8 +12,6 @@ while True:
         mode = 'decrypt'
         break
     print('Please Enter the letter e or d.')
-
-
 while True:
     maxKey = len(SYMBOLS) - 1
     print(f'Please enter the key (0 to {maxKey})')
@@ -21,8 +20,8 @@ while True:
         continue
     if 0 <= int(response) < len(SYMBOLS):
         key = int(response)
+        encryption_key = key
         break
-
 print(f'Enter the message to {mode}')
 message = input('> ')
 message = message.upper()
@@ -43,5 +42,17 @@ for symbol in message:
 
     else:
         translated += symbol
-
+if mode == 'encrypt':
+    caesar_password = translated
+    translated = list(translated.swapcase().capitalize())
+    random.shuffle(translated)
+    translated = ''.join(translated)
 print(translated)
+pyperclip.copy(translated)
+
+if mode == 'encrypt':
+    file = open('./my_password.txt', 'w')
+    lines = ["our encryption key: " +
+             str(encryption_key)+"\n", "caesar password: "+caesar_password+"\n",
+             "our password: " + translated]
+    file.writelines(lines)
