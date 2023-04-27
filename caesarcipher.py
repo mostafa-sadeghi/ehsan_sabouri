@@ -42,17 +42,19 @@ for symbol in message:
 
     else:
         translated += symbol
-if mode == 'encrypt':
-    caesar_password = translated
-    translated = list(translated.swapcase().capitalize())
-    random.shuffle(translated)
-    translated = ''.join(translated)
-print(translated)
-pyperclip.copy(translated)
+# if mode == 'encrypt':
+#     caesar_password = translated
+#     translated = list(translated.swapcase().capitalize())
+#     random.shuffle(translated)
+#     translated = ''.join(translated)
+# print(translated)
+# pyperclip.copy(translated)
 
 if mode == 'encrypt':
     file = open('./my_password.txt', 'w')
     lines = ["our encryption key: " +
-             str(encryption_key)+"\n", "caesar password: "+caesar_password+"\n",
+             str(encryption_key)+"\n", "caesar password: "+translated+"\n",
              "our password: " + translated]
     file.writelines(lines)
+
+input('press enter to exit...')
