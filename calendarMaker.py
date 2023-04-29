@@ -1,4 +1,7 @@
 import datetime
+from colorama import init
+from colorama import Fore, Back
+init()
 
 DAYS = ('Sunday', 'Monday', 'Tuesday', 'Wednesday',
         'Thursday', 'Friday', 'Saturday')
@@ -29,19 +32,27 @@ def getCalendarFor(year, month):
     calText += ' ' * 34 + MONTHS[month - 1] + ' ' + str(year) + '\n'
     calText += '...Sunday.....Monday....Tuesday...Wednesday...Thursday....Friday....Saturday..\n'
     weekSeprator = ('+----------'*7) + "+\n"
-    blankRow = ('|           '*7) + '|\n'
+    blankRow = ('|          '*7) + '|\n'
     currentdate = datetime.date(year, month, 1)
-    # todo ---------------------------------------------------------
+    while currentdate.weekday() != 6:
+        currentdate -= datetime.timedelta(days=1)
 
     while True:
         calText += weekSeprator
 
         dayNumberRow = ''
         for i in range(7):
-            dayNumberLabel = str(currentdate.day)
-            dayNumberRow += '|' + dayNumberLabel + (' '*8)
+            if currentdate.weekday() == 6:
+                dayNumberLabel = Fore.RED+Back.GREEN + \
+                    str(currentdate.day).rjust(2)
+            else:
+                dayNumberLabel = Fore.BLACK+Back.BLACK + \
+                    str(currentdate.day).rjust(2)
+
+            dayNumberRow += Fore.BLACK+Back.BLACK + \
+                '|' + dayNumberLabel + (' '*8)
             currentdate += datetime.timedelta(days=1)
-        dayNumberRow += '\n'
+        dayNumberRow += '|\n'
 
         calText += dayNumberRow
         for i in range(3):
