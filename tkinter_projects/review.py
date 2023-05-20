@@ -3,7 +3,8 @@
 # Database
 
 import tkinter as tk
-from tkinter import ttk
+# from tkinter import ttk
+import ttkbootstrap as ttk
 from tkinter import filedialog
 from image_converter import convert_image
 
@@ -19,23 +20,52 @@ def handle_selection(event):
     image_mode = format_images.get()
 
 
-root = tk.Tk()
-root.geometry("400x320")
+# root = tk.Tk()
+
+
+# style = ttk.Style()
+root = ttk.Window(themename="superhero")
+# style.configure('TButton', font=("Arial", 16))
+# ('winnative', 'clam', 'alt', 'default', 'classic', 'vista', 'xpnative')
+# style.theme_use('xpnative')
+# print(style.theme_names())
+root.rowconfigure(0, weight=1)
+root.rowconfigure(1, weight=1)
+root.columnconfigure(0, weight=1)
+root.geometry("400x220")
 root.title("برنامه من")
 root.iconbitmap("apple.ico")
 
 image_formats = tk.StringVar()
 image_mode = ''
 file_name = tk.StringVar()
-ttk.Entry(root, textvariable=file_name).pack(pady=(5, 10))
 
 
-format_images = ttk.Combobox(root, textvariable=image_formats)
-format_images.pack(pady=(0, 10))
+header_frame = ttk.Frame(root)
+header_frame.grid(row=0, column=0)
+header_frame.columnconfigure(0, weight=1)
+header_frame.columnconfigure(1, weight=1)
+header_frame.rowconfigure(0, weight=1)
+ttk.Label(header_frame, text="File name:", padding=10, anchor="w", justify="left",
+          font=("Arial", 16)).grid(row=0, column=0)
+ttk.Entry(header_frame, textvariable=file_name,
+          font=("Arial", 16)).grid(row=0, column=1)
+
+
+body_frame = ttk.Frame(root)
+body_frame.grid(row=1, column=0)
+body_frame.columnconfigure(0, weight=1)
+body_frame.columnconfigure(1, weight=1)
+body_frame.rowconfigure(0, weight=1)
+ttk.Label(body_frame, text="Image Format:", padding=(0, 0, 70, 0), anchor="w",
+          font=("Arial", 16)).grid(row=0, column=0, sticky="w")
+format_images = ttk.Combobox(
+    body_frame, textvariable=image_formats, font=("Arial", 16), width=10)
+format_images.grid(row=0, column=1)
 format_images["values"] = ("JPEG", "PNG")
 format_images.bind("<<ComboboxSelected>>", handle_selection)
-ttk.Button(root, text="open", command=open_file_dialog,
-           cursor="hand2", padding=10).pack()
+ttk.Button(body_frame, text="open", command=open_file_dialog,
+           cursor="hand2", padding=20).grid(row=1, column=0, columnspan=2, sticky="ew", pady=10)
 
 
 root.mainloop()
