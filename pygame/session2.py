@@ -48,6 +48,12 @@ custom_text = custom_font.render("Moving The dragon", True, GREEN)
 custom_text_rect = custom_text.get_rect()
 custom_text_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT // 2 + 100)
 
+background_text = system_font.render("My Game", True, GREEN)
+background_text_rect = background_text.get_rect()
+background_text_rect.top = 75
+background_text_rect.centerx  = WINDOW_WIDTH//2
+
+
 dragon_left_image = pygame.image.load("images/dragon_left.png")
 dragon_left_rect = dragon_left_image.get_rect()
 dragon_left_rect.topleft = (0, 0)
@@ -81,7 +87,7 @@ while running:
         #     if event.key == pygame.K_DOWN:
         #         dragon_rect.y += velocity
 
-        # if event.type == pygame.MOUSEMOTION and event.buttons[0] == 1: 
+        # if event.type == pygame.MOUSEMOTION and event.buttons[0] == 1:
         #     print(event)
         #     mouse_x = event.pos[0]
         #     mouse_y = event.pos[1]
@@ -99,6 +105,7 @@ while running:
         dragon_rect.y += velocity
 
     display_surface.fill((0, 0, 0))
+    display_surface.blit(background_text, background_text_rect)
     display_surface.blit(dragon_left_image, dragon_left_rect)
     display_surface.blit(dragon_right_image, dragon_right_rect)
     pygame.draw.line(display_surface, (255, 255, 255),
@@ -109,8 +116,7 @@ while running:
         pygame.time.delay(2000)
         first_time = 1
 
-
-    display_surface.blit(dragon_image,dragon_rect)
+    display_surface.blit(dragon_image, dragon_rect)
     # display_surface.blit(system_text, system_text_rect)
     # display_surface.blit(custom_text, custom_text_rect)
     pygame.display.update()
