@@ -1,16 +1,32 @@
-from turtle import Screen, Turtle
+# pyinstaller --onefile --windowed --icon=images\orange.ico --add-data="images\orange.ico;images" --name=ee1  .\turtle_game.py
 
-display_surface = Screen()
-display_surface.bgcolor('blue')
-display_surface.title('Snake Game')
-display_surface.setup(width=600, height=600)
+from turtle_game_utils import *
+from time import sleep
+display_surface = make_screen()
 
 root = display_surface._root
 root.resizable(False, False)
+root.iconbitmap(resource_path("images\orange.ico"))
 
-root.iconbitmap('images\orange.ico')
+snake_head = make_turtle("square", "black")
+snake_head.direction = ""
+
+snake_food = make_turtle("circle", "red")
+change_food_position(snake_food)
+
+display_surface.listen()
+display_surface.onkeypress(lambda: go_up(snake_head),
+                           "Up")
+display_surface.onkeypress(lambda: go_down(snake_head),
+                           "Down")
+display_surface.onkeypress(lambda: go_right(snake_head),
+                           "Right")
+display_surface.onkeypress(lambda: go_left(snake_head),
+                           "Left")
 
 
 running = True
 while running:
     display_surface.update()
+    move_snake(snake_head)
+    sleep(0.2)
