@@ -48,13 +48,13 @@ x = [1, 2, 3, 4, 5, 9]
 
 # print(f"x = {x}")
 
-my_numbers = []
-total = 0
-for number in range(100, 251):
-    if number % 3 == 0:
-        my_numbers.append(number)
-        if number % 2 != 0:
-            total += number
+# my_numbers = []
+# total = 0
+# for number in range(100, 251):
+#     if number % 3 == 0:
+#         my_numbers.append(number)
+#         if number % 2 != 0:
+#             total += number
 
-print(my_numbers)
-print(total)
+# print(my_numbers)
+# print(total)
