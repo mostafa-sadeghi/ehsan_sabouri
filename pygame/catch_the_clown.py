@@ -41,6 +41,14 @@ lives_text = font.render(f"Lives: {player_lives}", False, YELLOW)
 lives_text_rect = lives_text.get_rect()
 lives_text_rect.topleft = (WINDOW_WIDTH - 150, 50)
 
+game_over_text = font.render("gameOver", True, YELLOW, BLUE)
+game_over_text_rect = game_over_text.get_rect()
+game_over_text_rect.center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
+
+continue_text = font.render("press Enter to continue...", True, YELLOW, BLUE)
+continue_text_rect = continue_text.get_rect()
+continue_text_rect.center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 64)
+
 click_sound = pygame.mixer.Sound("click_sound.wav")
 miss_sound = pygame.mixer.Sound("miss_sound.wav")
 background_sound = pygame.mixer.Sound("Bad Piggies Theme.mp3")
@@ -53,7 +61,7 @@ background_image = pygame.image.load("background.png")
 background_image_rect = background_image.get_rect()
 background_image_rect.center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
 
-clown_image = pygame.image.load("Clown.png")
+clown_image = pygame.transform.scale(pygame.image.load("Clown.png"), (64, 64))
 clown_image_rect = clown_image.get_rect()
 clown_image_rect.center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
 
@@ -65,6 +73,42 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+
+            if clown_image_rect.collidepoint(event.pos):
+                click_sound.play()
+                score += 1
+                clown_velocity += CLOWN_ACCELERATION
+
+                clown_prev_dx = clown_dx
+                clown_prev_dy = clown_dy
+
+                while clown_prev_dx == clown_dx and clown_prev_dy == clown_dy:
+                    clown_dx = random.choice([-1, 1])
+                    clown_dy = random.choice([-1, 1])
+
+            else:
+                miss_sound.play()
+                player_lives -= 1
+
+    # Moving the clown
+    clown_image_rect.x += clown_dx * clown_velocity
+    clown_image_rect.y += clown_dy * clown_velocity
+
+    if clown_image_rect.x <= 0 or clown_image_rect.right >= WINDOW_WIDTH:
+        clown_dx = -1 * clown_dx
+
+    if clown_image_rect.y <= 0 or clown_image_rect.bottom >= WINDOW_HEIGHT:
+        clown_dy = -1 * clown_dy
+
+    score_text = font.render(f"Score: {score}", False, YELLOW)
+    lives_text = font.render(f"Lives: {player_lives}", False, YELLOW)
+
+    if player_lives == 0:
+        display_surface.blit(game_over_text, game_over_text_rect)
+        display_surface.blit(continue_text, continue_text_rect)
+        pygame.display.update()
 
     display_surface.blit(background_image, background_image_rect)
     display_surface.blit(title_text, title_text_rect)
