@@ -66,6 +66,16 @@ clown_image_rect = clown_image.get_rect()
 clown_image_rect.center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
 
 running = True
+
+
+def draw_all_surfaces():
+    display_surface.blit(background_image, background_image_rect)
+    display_surface.blit(title_text, title_text_rect)
+    display_surface.blit(score_text, score_text_rect)
+    display_surface.blit(lives_text, lives_text_rect)
+    display_surface.blit(clown_image, clown_image_rect)
+
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -106,17 +116,31 @@ while running:
     lives_text = font.render(f"Lives: {player_lives}", False, YELLOW)
 
     if player_lives == 0:
+        draw_all_surfaces()
         display_surface.blit(game_over_text, game_over_text_rect)
         display_surface.blit(continue_text, continue_text_rect)
         pygame.display.update()
+        background_sound.stop()
+        is_paused = True
+        while is_paused:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        score = 0
+                        player_lives = PLAYER_STARTING_LIVES
+                        clown_velocity = CLOWN_STARTING_VELOCITY
+                        clown_image_rect.center = (WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
+                        clown_dx = random.choice([-1,1])
+                        clown_dy = random.choice([-1,1])
+                        background_sound.play()
+                        is_paused = False
+                if event.type == pygame.QUIT:
+                    is_paused = False
+                    running = False
 
-    display_surface.blit(background_image, background_image_rect)
-    display_surface.blit(title_text, title_text_rect)
-    display_surface.blit(score_text, score_text_rect)
-    display_surface.blit(lives_text, lives_text_rect)
-
-    display_surface.blit(clown_image, clown_image_rect)
+    draw_all_surfaces()
 
     pygame.display.update()
+    clock.tick(FPS)
 
 pygame.quit()
