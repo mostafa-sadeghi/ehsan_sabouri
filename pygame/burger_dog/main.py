@@ -1,5 +1,7 @@
 import random
 import pygame
+from pygame.locals import *
+
 
 pygame.init()
 
@@ -110,9 +112,7 @@ while running:
     else:
         player_velocity = PLAYER_NORMAL_VELOCITY
 
-
     burger_points = (WINDOW_HEIGHT - burger_rect.y)//10 + 1
-
 
     burger_rect.y += burger_velocity
 
@@ -123,9 +123,7 @@ while running:
         burger_velocity = STARTING_BURGER_VELOCITY
         player_rect.centerx = WINDOW_WIDTH/2
         player_rect.bottom = WINDOW_HEIGHT
-        
 
-    
     if player_rect.colliderect(burger_rect):
         score += burger_points
         burgers_eaten += 1
@@ -133,16 +131,11 @@ while running:
         burger_rect.topleft = (random.randint(0, WINDOW_WIDTH - 64), -100)
         burger_velocity += BURGER_ACCELERATION
 
-
-    
-
     boost_text = font.render(f"Boost: {boost_level}", True, ORANGE)
     points_text = font.render(f"Burger Points: {burger_points}", True, ORANGE)
     lives_text = font.render(f"Lives: {player_lives}", True, ORANGE)
     eaten_text = font.render(f"Burgers Eaten: {burgers_eaten}", True, ORANGE)
     score_text = font.render(f"Score: {score}", True, ORANGE)
-
-
 
     display_surface.fill(BLACK)
     display_surface.blit(points_text, points_rect)
