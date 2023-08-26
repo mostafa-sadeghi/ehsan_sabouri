@@ -34,3 +34,13 @@ class Player(Sprite):
 
         if keys[pygame.K_DOWN] and self.rect.bottom < WINDOW_HEIGHT - 100:
             self.rect.y += self.velocity
+
+    def warp(self):
+        if self.warps > 0:
+            self.warps -= 1
+            self.warp_sound.play()
+            self.rect.bottom = WINDOW_HEIGHT
+
+    def reset(self):
+        self.rect.centerx = WINDOW_WIDTH / 2
+        self.rect.bottom = WINDOW_HEIGHT
