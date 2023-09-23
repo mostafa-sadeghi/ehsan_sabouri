@@ -1,6 +1,7 @@
 from random import randint
 import pygame
 from config import *
+from game import Game
 from monster import Monster
 from player import Player
 
@@ -15,7 +16,8 @@ player = Player()
 player_group.add(player)
 monster_group = pygame.sprite.Group()
 
-
+game = Game(player, monster_group)
+game.start_new_round()
 running = True
 while running:
     for event in pygame.event.get():
@@ -30,6 +32,8 @@ while running:
     player_group.update()
     monster_group.draw(display_surface)
     monster_group.update()
+    game.draw(display_surface)
+    game.update(display_surface, running)
     clock.tick(FPS)
     pygame.display.update()
 

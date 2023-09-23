@@ -10,7 +10,7 @@ class Monster(Sprite):
         self.image = image
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
-        self.monster_type = monster_type
+        self.type = monster_type
 
         self.dx = choice([-1, 1])
         self.dy = choice([-1, 1])
@@ -26,3 +26,5 @@ class Monster(Sprite):
 
         if self.rect.top <= 100 or self.rect.bottom >= WINDOW_HEIGHT-100:
             self.dy *= -1
+
+
