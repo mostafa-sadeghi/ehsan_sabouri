@@ -13,7 +13,7 @@ tile_map = [
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    [0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
     [2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
@@ -56,8 +56,6 @@ main_tile_group = pygame.sprite.Group()
 grass_tile_group = pygame.sprite.Group()
 water_main_tile_group = pygame.sprite.Group()
 
-my_player = Player(100, 105)
-
 
 for i in range(len(tile_map)):
     for j in range(len(tile_map[i])):
@@ -67,12 +65,18 @@ for i in range(len(tile_map)):
             Tile(j * 32, i * 32, 2, main_tile_group, grass_tile_group)
         elif tile_map[i][j] == 3:
             Tile(j * 32, i * 32, 3, main_tile_group, water_main_tile_group)
+        elif tile_map[i][j] == 4:
+            my_player = Player(
+                j*32, i*32 + 32, grass_tile_group, water_main_tile_group)
 
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                my_player.jump()
 
     display_surface.blit(background_picture, background_rect)
     main_tile_group.update()
