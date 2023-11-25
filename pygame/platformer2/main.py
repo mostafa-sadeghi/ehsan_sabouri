@@ -33,7 +33,7 @@ while running:
     draw_grid()
     world.draw(screen)
     screen.blit(sun_img, (100,100))
-    player.update()
+    player.update(world.tile_list,screen)
     player.draw(screen)
 
     pygame.display.update()
