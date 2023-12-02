@@ -8,9 +8,14 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 clock = pygame.time.Clock()
 
-world = World(world_data)
 
-player = Player(100,screen_height-100)
+
+enemy_group = pygame.sprite.Group()
+lava_group = pygame.sprite.Group()
+player = Player(100,screen_height-100, enemy_group, lava_group)
+world = World(world_data,enemy_group, lava_group)
+
+
 
 bg_img = pygame.image.load("assets/sky.png")
 sun_img = pygame.image.load("assets/sun.png")
@@ -22,7 +27,7 @@ def draw_grid():
         pygame.draw.line(screen,(255,10,170), (i*50,0), (i*50,screen_height))
 
 
-
+game_status = "playing"
 running = True
 while running:
     for event in pygame.event.get():
@@ -30,11 +35,15 @@ while running:
             running = False
 
     screen.blit(bg_img, (0,0))
-    draw_grid()
+    
     world.draw(screen)
     screen.blit(sun_img, (100,100))
-    player.update(world.tile_list,screen)
+    game_status = player.update(world.tile_list,game_status)
     player.draw(screen)
+    enemy_group.update()
+    enemy_group.draw(screen)
+    lava_group.update()
+    lava_group.draw(screen)
 
     pygame.display.update()
     clock.tick(FPS)
